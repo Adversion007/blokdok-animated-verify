@@ -1,9 +1,14 @@
 
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import TeamMember from "@/components/TeamMember";
 import Background3D from "@/components/Background3D";
+import { ErrorBoundary } from "react-error-boundary";
+
+const FallbackBackground = () => (
+  <div className="fixed inset-0 bg-gradient-to-br from-gray-900 to-black -z-10"></div>
+);
 
 const Home = () => {
   const teamMembers = [
@@ -14,7 +19,11 @@ const Home = () => {
 
   return (
     <div className="min-h-screen w-full overflow-hidden">
-      <Background3D />
+      <ErrorBoundary fallback={<FallbackBackground />}>
+        <Suspense fallback={<FallbackBackground />}>
+          <Background3D />
+        </Suspense>
+      </ErrorBoundary>
       
       <div className="container mx-auto px-4 py-12 relative z-10">
         {/* Hero Section */}

@@ -1,15 +1,11 @@
 
 import React, { useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Sphere, Box } from '@react-three/drei';
+import { useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 
-interface ParticleProps {
-  position: [number, number, number];
-  color: string;
-}
-
-const Particle: React.FC<ParticleProps> = ({ position, color }) => {
+// Simplified particle component that doesn't use drei primitives directly
+const Particle = ({ position, color }: { position: [number, number, number]; color: string }) => {
   const mesh = useRef<THREE.Mesh>(null!);
   const randomSpeed = useRef(Math.random() * 0.01 + 0.003);
   const randomRotation = useRef(Math.random() * 0.01 + 0.003);
@@ -41,17 +37,19 @@ const Particle: React.FC<ParticleProps> = ({ position, color }) => {
     }
   });
 
+  // Use basic Three.js geometries instead of drei components
   return (
     <mesh ref={mesh} position={position}>
       {Math.random() > 0.5 ? (
-        <Sphere args={[0.2 + Math.random() * 0.3]}>
-          <meshStandardMaterial color={color} transparent opacity={0.6} />
-        </Sphere>
+        <sphereGeometry args={[0.2 + Math.random() * 0.3]} />
       ) : (
-        <Box args={[0.3 + Math.random() * 0.3, 0.3 + Math.random() * 0.3, 0.3 + Math.random() * 0.3]}>
-          <meshStandardMaterial color={color} transparent opacity={0.6} />
-        </Box>
+        <boxGeometry args={[
+          0.3 + Math.random() * 0.3, 
+          0.3 + Math.random() * 0.3, 
+          0.3 + Math.random() * 0.3
+        ]} />
       )}
+      <meshStandardMaterial color={color} transparent opacity={0.6} />
     </mesh>
   );
 };

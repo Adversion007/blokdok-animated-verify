@@ -1,8 +1,13 @@
 
 import { useLocation, Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import Background3D from "@/components/Background3D";
+import { ErrorBoundary } from "react-error-boundary";
+
+const FallbackBackground = () => (
+  <div className="fixed inset-0 bg-gradient-to-br from-gray-900 to-black -z-10"></div>
+);
 
 const NotFound = () => {
   const location = useLocation();
@@ -16,7 +21,11 @@ const NotFound = () => {
 
   return (
     <div className="min-h-screen w-full flex flex-col items-center justify-center">
-      <Background3D />
+      <ErrorBoundary fallback={<FallbackBackground />}>
+        <Suspense fallback={<FallbackBackground />}>
+          <Background3D />
+        </Suspense>
+      </ErrorBoundary>
       
       <div className="text-center relative z-10 max-w-md mx-auto px-4">
         <h1 className="text-8xl font-bold text-gradient mb-4">404</h1>
