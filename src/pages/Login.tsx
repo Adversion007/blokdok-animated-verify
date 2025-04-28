@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
@@ -10,6 +9,7 @@ import { useToast } from "@/components/ui/use-toast";
 import Background3D from "@/components/Background3D";
 import { useAuth } from "@/contexts/AuthContext";
 import { Separator } from "@/components/ui/separator";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -57,6 +57,9 @@ const Login = () => {
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center">
+      <div className="absolute top-4 right-4">
+        <ThemeToggle />
+      </div>
       <Background3D />
       
       <div className="max-w-md w-full px-4 relative z-10">
